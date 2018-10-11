@@ -6,7 +6,13 @@ git 下载
 
  git 的操作
  ---------------
-+ `git status` 
++ `git status` 查看git状态
++ `git commit`
++ `git add`
++ `git checkout`
++ `git branch`
++ 
++
 
 
  git 文件存储
