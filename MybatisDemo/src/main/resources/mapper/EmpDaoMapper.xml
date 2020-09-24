@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wdzl.dao.EmpDaoMapper">
+    <!--添加雇员信息-->
+    <insert id="addEmp" parameterType="Emp" useGeneratedKeys="true" keyProperty="eno">
+        insert into emp(ename,email,salary,dno)
+            values(#{ename},#{email},#{salary},#{dno})
+    </insert>
+    <!--动态sql if-->
+    <select id="dynamicIfTest" parameterType="Emp" resultType="Emp">
+        select * from emp where 1=1
+        <if test="ename!=null">
+            and ename like #{ename}
+        </if>
+        <if test="email!=null">
+            and email=#{email}
+        </if>
+        <if test="dno!=null">
+            and dno=#{dno}
+        </if>
+    </select>
+
+    <!--动态sql choose-->
+    <select id="dynamicChooseTest" parameterType="Emp" resultType="Emp">
+        select * from emp where 1=1
+        <choose>
+            <when test="ename!=null">
+                and ename like #{ename}
+            </when>
+            <when test="email!=null">
+                and email = #{email}
+            </when>
+            <when test="dno!=null">
+                and dno=#{dno}
+            </when>
+            <otherwise>
+                and eno=#{eno}
+            </otherwise>
+        </choose>
+    </select>
+
+    <!--动态sql where-->
+    <select id="dynamicWhereTest" parameterType="Emp" resultType="Emp">
+        select * from emp
+        <where>
+            <if test="ename!=null">
+                ename like #{ename}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+            <if test="dno!=null">
+                and dno=#{dno}
+            </if>
+        </where>
+
+    </select>
+
+    <!--动态sql trim-->
+    <select id="dynamicTrimTest" parameterType="Emp" resultType="Emp">
+        select * from emp
+        <trim prefix="where" prefixOverrides="and | or">
+            <if test="ename!=null">
+                ename like #{ename}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+            <if test="dno!=null">
+                or dno=#{dno}
+            </if>
+        </trim>
+
+    </select>
+
+    <!--动态sql set-->
+    <select id="dynamicSetTest" parameterType="Emp">
+        update emp
+        <set>
+            <if test="ename!=null">
+                ename = #{ename},
+            </if>
+            <if test="email!=null">
+                email=#{email},
+            </if>
+            <if test="dno!=null">
+                dno=#{dno},
+            </if>
+        </set>
+        where eno=#{eno}
+    </select>
+
+    <!--动态sql foreach-->
+    <select id="dynamicForeachListTest" resultType="Emp">
+        select * from emp where eno in
+        <foreach collection="list" open="(" separator="," item="item" index="index" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--动态sql foreach array-->
+    <select id="dynamicForeachArrayTest" resultType="Emp">
+        select * from emp where eno in
+        <foreach collection="array" open="(" separator="," item="item" index="index" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <!--动态sql foreach map-->
+    <select id="dynamicForeachMapTest" resultType="Emp">
+        select * from emp where ename like #{ename} and eno in
+        <foreach collection="enos" open="(" separator="," item="item" index="index" close=")">
+            #{item}
+        </foreach>
+    </select>
+</mapper>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.wdzl.dao.DeptDaoMapper">
+    <resultMap id="deptMap" type="Dept">
+        <id column="dno" property="dno"></id>
+        <result column="dname" property="dname"></result>
+        <!--部门与雇员的一对多集合-->
+        <collection property="emps" ofType="emp">
+            <id column="eno" property="eno"></id>
+            <result column="ename" property="ename"></result>
+            <result column="email" property="email"></result>
+            <result column="salary" property="salary"></result>
+            <result column="dno" property="dno"></result>
+        </collection>
+    </resultMap>
+
+
+    <!--根据指定部门编号查询对应的部门及部门下的雇员信息-->
+    <select id="findDeptByDno" parameterType="int" resultMap="deptMap">
+        select e.*,d.dname from emp e inner join dept d on e.dno=d.dno where d.dno=#{dno}
+    </select>
+</mapper>
+
+
