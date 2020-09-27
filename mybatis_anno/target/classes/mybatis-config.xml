@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--加载数据库配置文件-->
+    <properties resource="db.properties"/>
+    <settings>
+
+<!--        &lt;!&ndash;        二级缓存支持&ndash;&gt;-->
+        <setting name="cacheEnabled" value="true"/>
+        <!--打开延迟加载的开关-->
+<!--        <setting name="lazyLoadingEnabled" value="true"/>-->
+
+
+
+<!--        &lt;!&ndash;将⽴即加载改为延迟加载，即按需加载&ndash;&gt;-->
+<!--        <setting name="aggressiveLazyLoading" value="false"/>-->
+    </settings>
+
+    <!--别名配置-->
+    <typeAliases>
+        <package name="org.wdzl.entity"/>
+    </typeAliases>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <mappers>
+        <mapper class="org.wdzl.dao.DeptDaoMapper"/>
+        <mapper class="org.wdzl.dao.EmpDaoMapper"/>
+        <mapper class="org.wdzl.dao.StudentDaoMapper"/>
+        <mapper class="org.wdzl.dao.CourseDaoMapper"/>
+    </mappers>
+</configuration>
